@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Turismo Inteligente - PMV</title>
+<style>
+  :root{
+    --purple-900:#3b1664;
+    --purple-700:#5b21b6;
+    --purple-500:#7c3aed;
+    --purple-100:#ede6fb;
+    --cream:#faf8fc;
+    --ink:#1f1530;
+    --gold:#d4a942;
+    --green:#1f9d72;
+    --radius:18px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(160deg, #efe9fb 0%, #f7f4fb 60%, #fbf9f6 100%);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    color:var(--ink);
+  }
+  .kiosk{
+    width:100%;
+    max-width:480px;
+    background:#fff;
+    border-radius:28px;
+    box-shadow:0 30px 60px -20px rgba(59,22,100,0.35), 0 0 0 1px rgba(91,33,182,0.08);
+    overflow:hidden;
+    border: 6px solid #1a1024;
+    position:relative;
+  }
+  .statusbar{
+    background:#1a1024;
+    color:#fff;
+    font-size:11px;
+    padding:6px 16px;
+    display:flex;
+    justify-content:space-between;
+    letter-spacing:.02em;
+    opacity:.85;
+  }
+  .topbar{
+    background: linear-gradient(120deg, var(--purple-900), var(--purple-700));
+    color:#fff;
+    padding:18px 20px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand-mark{
+    width:34px; height:34px; border-radius:10px;
+    background: rgba(255,255,255,0.15);
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px;
+  }
+  .brand-text strong{display:block; font-size:14px; letter-spacing:.02em;}
+  .brand-text span{display:block; font-size:10px; opacity:.7; letter-spacing:.05em;}
+  .lang-toggle{display:flex; background:rgba(255,255,255,.15); border-radius:999px; padding:3px; font-size:11px;}
+  .lang-toggle button{
+    border:none; background:transparent; color:#fff; padding:5px 10px; border-radius:999px;
+    font-size:11px; cursor:pointer; opacity:.7;
+  }
+  .lang-toggle button.active{background:#fff; color:var(--purple-700); opacity:1; font-weight:600;}
+
+  .screen{min-height:560px; display:flex; flex-direction:column;}
+  .panel{padding:24px 22px; flex:1; display:flex; flex-direction:column;}
+  .hidden{display:none !important;}
+
+  /* Pantalla inicio */
+  .hero-title{font-size:21px; font-weight:700; color:var(--purple-900); line-height:1.25; margin-bottom:6px;}
+  .hero-sub{font-size:13px; color:#6b6178; margin-bottom:26px;}
+  .start-illustration{
+    width:100%; height:140px; border-radius:16px;
+    background: linear-gradient(135deg, var(--purple-100), #f3eafe);
+    display:flex; align-items:center; justify-content:center;
+    font-size:46px; margin-bottom:26px;
+  }
+  .btn-primary{
+    background: linear-gradient(120deg, var(--purple-700), var(--purple-500));
+    color:#fff; border:none; padding:16px; border-radius:14px;
+    font-size:15px; font-weight:600; cursor:pointer;
+    box-shadow:0 10px 24px -8px rgba(91,33,182,0.5);
+    transition: transform .15s ease;
+  }
+  .btn-primary:active{transform:scale(.97);}
+  .tap-hint{text-align:center; font-size:11px; color:#9b91a8; margin-top:14px; letter-spacing:.04em;}
+
+  /* Pantalla pregunta */
+  .progress{display:flex; gap:5px; margin-bottom:18px;}
+  .progress span{height:4px; flex:1; background:var(--purple-100); border-radius:4px; overflow:hidden;}
+  .progress span i{display:block; height:100%; width:0%; background:var(--purple-500); transition:width .3s ease;}
+  .q-label{font-size:11px; color:var(--purple-500); font-weight:700; letter-spacing:.06em; text-transform:uppercase; margin-bottom:8px;}
+  .q-title{font-size:17px; font-weight:700; margin-bottom:20px; line-height:1.35;}
+  .options{display:flex; flex-direction:column; gap:10px; flex:1;}
+  .opt{
+    display:flex; align-items:center; gap:12px;
+    border:2px solid #ece6f5; background:#fff; border-radius:14px;
+    padding:13px 14px; cursor:pointer; font-size:14px; font-weight:600; color:var(--ink);
+    transition: all .15s ease;
+  }
+  .opt:hover{border-color:var(--purple-500); background:var(--purple-100);}
+  .opt .ic{font-size:20px;}
+  .nav-row{display:flex; justify-content:space-between; margin-top:18px; font-size:12px;}
+  .link-btn{background:none; border:none; color:#9b91a8; cursor:pointer; font-size:12px;}
+
+  /* Pantalla cargando */
+  .loading-wrap{display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; gap:18px;}
+  .spinner{width:46px; height:46px; border-radius:50%; border:4px solid var(--purple-100); border-top-color:var(--purple-500); animation:spin 0.8s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .loading-text{font-size:13px; color:#6b6178;}
+
+  /* Pantalla resultado */
+  .result-header{margin-bottom:16px;}
+  .result-eyebrow{font-size:11px; color:var(--purple-500); font-weight:700; text-transform:uppercase; letter-spacing:.06em;}
+  .result-title{font-size:19px; font-weight:700; color:var(--purple-900); margin-top:4px;}
+  .rec-card{
+    border-radius:16px; background:var(--purple-100); padding:16px; margin-bottom:12px;
+    display:flex; gap:12px; align-items:flex-start;
+  }
+  .rec-card .ic{font-size:26px;}
+  .rec-card h4{font-size:14px; margin-bottom:3px;}
+  .rec-card p{font-size:12px; color:#5c5468; line-height:1.4;}
+  .rec-tag{display:inline-block; font-size:10px; background:var(--green); color:#fff; padding:2px 8px; border-radius:999px; margin-top:6px;}
+  .qr-box{
+    margin-top:8px; border:2px dashed #d8cdee; border-radius:14px; padding:14px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .qr-box .qr-icon{font-size:34px;}
+  .qr-box p{font-size:11px; color:#6b6178;}
+  .btn-secondary{
+    margin-top:16px; background:#fff; border:2px solid var(--purple-500); color:var(--purple-700);
+    padding:12px; border-radius:12px; font-weight:600; font-size:13px; cursor:pointer;
+  }
+
+  /* Feedback */
+  .feedback-row{display:flex; gap:8px; margin-top:6px;}
+  .feedback-row button{
+    flex:1; border:2px solid #ece6f5; background:#fff; border-radius:12px; padding:10px; font-size:13px; cursor:pointer;
+  }
+  .feedback-row button.sel{border-color:var(--gold); background:#fdf6e8;}
+
+  footer.note{
+    text-align:center; font-size:11px; color:#a89dbb; padding:10px 0 2px;
+  }
+</style>
+</head>
+<body>
+
+<div class="kiosk">
+  <div class="statusbar"><span>Turismo Inteligente · POP-01</span><span id="clock">10:45</span></div>
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-mark">🧭</div>
+      <div class="brand-text"><strong>Turismo Inteligente</strong><span>Aeropuerto El Dorado</span></div>
+    </div>
+    <div class="lang-toggle">
+      <button class="active" id="lang-es">ES</button>
+      <button id="lang-en">EN</button>
+    </div>
+  </div>
+
+  <div class="screen">
+
+    <!-- PANTALLA 0: INICIO -->
+    <div class="panel" id="screen-start">
+      <div class="hero-title" id="t-hero-title">Descubre tu próximo destino en Bogotá</div>
+      <div class="hero-sub" id="t-hero-sub">Responde 3 preguntas rápidas y recibe recomendaciones personalizadas de alojamiento, gastronomía y actividades.</div>
+      <div class="start-illustration">🗺️</div>
+      <div style="flex:1"></div>
+      <button class="btn-primary" id="btn-start" onclick="startFlow()">Comenzar mi experiencia →</button>
+      <div class="tap-hint" id="t-tap-hint">TOCA LA PANTALLA PARA COMENZAR</div>
+    </div>
+
+    <!-- PANTALLA 1: PREGUNTAS -->
+    <div class="panel hidden" id="screen-questions">
+      <div class="progress">
+        <span><i id="bar1"></i></span><span><i id="bar2"></i></span><span><i id="bar3"></i></span>
+      </div>
+      <div class="q-label" id="q-counter">Pregunta 1 de 3</div>
+      <div class="q-title" id="q-title">¿Con quién viajas?</div>
+      <div class="options" id="q-options"></div>
+      <div class="nav-row">
+        <button class="link-btn" onclick="goBack()">← Atrás</button>
+        <button class="link-btn" onclick="resetFlow()">Reiniciar</button>
+      </div>
+    </div>
+
+    <!-- PANTALLA 2: CARGANDO -->
+    <div class="panel hidden" id="screen-loading">
+      <div class="loading-wrap">
+        <div class="spinner"></div>
+        <div class="loading-text">Analizando tus preferencias…</div>
+      </div>
+    </div>
+
+    <!-- PANTALLA 3: RESULTADO -->
+    <div class="panel hidden" id="screen-result">
+      <div class="result-header">
+        <div class="result-eyebrow">Tu plan recomendado</div>
+        <div class="result-title" id="result-title">Hecho para ti</div>
+      </div>
+      <div id="rec-list"></div>
+      <div class="qr-box">
+        <div class="qr-icon">▦</div>
+        <p>Escanea este código para guardar tu plan y consultarlo desde tu celular cuando quieras.</p>
+      </div>
+      <div style="flex:1"></div>
+      <div class="q-label" style="margin-top:18px;">¿Qué tan útil fue esta recomendación?</div>
+      <div class="feedback-row" id="feedback-row">
+        <button onclick="rate(this,'malo')">🙁 Poco útil</button>
+        <button onclick="rate(this,'regular')">😐 Regular</button>
+        <button onclick="rate(this,'bueno')">🤩 Muy útil</button>
+      </div>
+      <button class="btn-secondary" onclick="resetFlow()">Hacer otra consulta</button>
+    </div>
+
+  </div>
+  <footer class="note">Prototipo PMV — Sprint 1 · Versión de prueba con usuarios</footer>
+</div>
+
+<script>
+const screens = {
+  start: document.getElementById('screen-start'),
+  questions: document.getElementById('screen-questions'),
+  loading: document.getElementById('screen-loading'),
+  result: document.getElementById('screen-result'),
+};
+
+function show(name){
+  Object.values(screens).forEach(s => s.classList.add('hidden'));
+  screens[name].classList.remove('hidden');
+}
+
+// Estructura de preguntas
+const questions = [
+  {
+    title: "¿Con quién viajas?",
+    key: "companía",
+    options: [
+      {ic:"🧍", label:"Solo"},
+      {ic:"💑", label:"Pareja"},
+      {ic:"👨‍👩‍👧", label:"Familia"},
+      {ic:"🧑‍🤝‍🧑", label:"Amigos"},
+    ]
+  },
+  {
+    title: "¿Qué tipo de experiencia prefieres?",
+    key: "experiencia",
+    options: [
+      {ic:"⛰️", label:"Aventura"},
+      {ic:"🧘", label:"Relajación"},
+      {ic:"🏛️", label:"Cultura"},
+      {ic:"🍲", label:"Gastronomía"},
+    ]
+  },
+  {
+    title: "¿Cuál es tu presupuesto aproximado por día?",
+    key: "presupuesto",
+    options: [
+      {ic:"💵", label:"Económico"},
+      {ic:"💰", label:"Moderado"},
+      {ic:"💎", label:"Premium"},
+    ]
+  }
+];
+
+let currentQ = 0;
+let answers = {};
+let startTime = null;
+
+function startFlow(){
+  startTime = Date.now();
+  currentQ = 0;
+  answers = {};
+  renderQuestion();
+  show('questions');
+}
+
+function renderQuestion(){
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Pregunta ${currentQ+1} de ${questions.length}`;
+  document.getElementById('q-title').textContent = q.title;
+  const optsDiv = document.getElementById('q-options');
+  optsDiv.innerHTML = '';
+  q.options.forEach(opt => {
+    const btn = document.createElement('div');
+    btn.className = 'opt';
+    btn.innerHTML = `<span class="ic">${opt.ic}</span><span>${opt.label}</span>`;
+    btn.onclick = () => selectOption(q.key, opt.label);
+    optsDiv.appendChild(btn);
+  });
+  // progress bar
+  ['bar1','bar2','bar3'].forEach((id,i) => {
+    document.getElementById(id).style.width = (i <= currentQ ? '100%' : '0%');
+  });
+}
+
+function selectOption(key, value){
+  answers[key] = value;
+  if(currentQ < questions.length - 1){
+    currentQ++;
+    renderQuestion();
+  } else {
+    show('loading');
+    setTimeout(() => {
+      renderResult();
+      show('result');
+      logInteraction();
+    }, 1100); // simula tiempo de respuesta del sistema (< 5s requerido)
+  }
+}
+
+function goBack(){
+  if(currentQ > 0){
+    currentQ--;
+    renderQuestion();
+  } else {
+    show('start');
+  }
+}
+
+function resetFlow(){
+  currentQ = 0;
+  answers = {};
+  show('start');
+}
+
+// Motor simple de recomendación basado en reglas (lógica del "MVP de IA")
+function getRecommendations(){
+  const recs = [];
+
+  // Alojamiento según presupuesto + compañía
+  if(answers.presupuesto === 'Económico'){
+    recs.push({ic:"🛏️", title:"Hostal La Candelaria", desc:"Habitaciones compartidas y privadas desde $60.000/noche, zona histórica.", tag:"Alojamiento"});
+  } else if(answers.presupuesto === 'Premium'){
+    recs.push({ic:"🏨", title:"Hotel Click Clack Bogotá", desc:"Diseño boutique en la Zona G, ideal para una estadía exclusiva.", tag:"Alojamiento"});
+  } else {
+    recs.push({ic:"🏠", title:"Selina Bogotá", desc:"Buen equilibrio precio-ubicación, ambiente social en Chapinero.", tag:"Alojamiento"});
+  }
+
+  // Gastronomía según experiencia
+  if(answers.experiencia === 'Gastronomía'){
+    recs.push({ic:"🍽️", title:"Mercado de Paloquemao", desc:"Sabores locales auténticos y frutas exóticas colombianas.", tag:"Gastronomía"});
+  } else if(answers.experiencia === 'Cultura'){
+    recs.push({ic:"☕", title:"Café San Alberto, La Candelaria", desc:"Cata de café de origen en un entorno colonial.", tag:"Gastronomía"});
+  } else {
+    recs.push({ic:"🍴", title:"Andrés DC", desc:"Experiencia gastronómica colombiana llena de color y música.", tag:"Gastronomía"});
+  }
+
+  // Actividad según experiencia + compañía
+  if(answers.experiencia === 'Aventura'){
+    recs.push({ic:"🚵", title:"Ciclomontañismo en Cerro de Suba", desc:"Ruta guiada apta para principiantes y grupos.", tag:"Actividad"});
+  } else if(answers.experiencia === 'Relajación'){
+    recs.push({ic:"🌿", title:"Jardín Botánico de Bogotá", desc:"Caminata tranquila entre flora andina, ideal para desconectar.", tag:"Actividad"});
+  } else if(answers.experiencia === 'Cultura'){
+    recs.push({ic:"🖼️", title:"Museo del Oro", desc:"Patrimonio precolombino en el corazón de la ciudad.", tag:"Actividad"});
+  } else {
+    recs.push({ic:"🎶", title:"Recorrido gastronómico nocturno", desc:"Tour a pie por los mejores puntos de comida callejera.", tag:"Actividad"});
+  }
+
+  if(answers["companía"] === 'Familia'){
+    recs.push({ic:"🎡", title:"Maloka - Centro Interactivo", desc:"Actividades educativas para todas las edades.", tag:"Actividad familiar"});
+  }
+
+  return recs;
+}
+
+function renderResult(){
+  const recs = getRecommendations();
+  document.getElementById('result-title').textContent =
+    `Plan para viajero ${answers["companía"] ? answers["companía"].toLowerCase() : ''}`;
+  const list = document.getElementById('rec-list');
+  list.innerHTML = '';
+  recs.forEach(r => {
+    const div = document.createElement('div');
+    div.className = 'rec-card';
+    div.innerHTML = `
+      <span class="ic">${r.ic}</span>
+      <div>
+        <h4>${r.title}</h4>
+        <p>${r.desc}</p>
+        <span class="rec-tag">${r.tag}</span>
+      </div>`;
+    list.appendChild(div);
+  });
+  // reset feedback buttons
+  document.querySelectorAll('#feedback-row button').forEach(b => b.classList.remove('sel'));
+}
+
+function rate(btn, value){
+  document.querySelectorAll('#feedback-row button').forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel');
+  console.log('Feedback registrado:', value, 'Respuestas:', answers);
+}
+
+function logInteraction(){
+  const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+  console.log(`Interacción completada en ${elapsed}s`, answers);
+}
+
+// Reloj decorativo
+function tick(){
+  const now = new Date();
+  document.getElementById('clock').textContent =
+    now.toLocaleTimeString('es-CO', {hour:'2-digit', minute:'2-digit'});
+}
+tick();
+setInterval(tick, 30000);
+
+// Toggle idioma (simple, demostrativo para el PMV)
+const langTexts = {
+  es: {heroTitle:"Descubre tu próximo destino en Bogotá", heroSub:"Responde 3 preguntas rápidas y recibe recomendaciones personalizadas de alojamiento, gastronomía y actividades.", tapHint:"TOCA LA PANTALLA PARA COMENZAR", start:"Comenzar mi experiencia →"},
+  en: {heroTitle:"Discover your next destination in Bogotá", heroSub:"Answer 3 quick questions and get personalized recommendations on lodging, food and activities.", tapHint:"TAP SCREEN TO START", start:"Start my experience →"}
+};
+function setLang(lang){
+  document.getElementById('lang-es').classList.toggle('active', lang==='es');
+  document.getElementById('lang-en').classList.toggle('active', lang==='en');
+  document.getElementById('t-hero-title').textContent = langTexts[lang].heroTitle;
+  document.getElementById('t-hero-sub').textContent = langTexts[lang].heroSub;
+  document.getElementById('t-tap-hint').textContent = langTexts[lang].tapHint;
+  document.getElementById('btn-start').textContent = langTexts[lang].start;
+}
+document.getElementById('lang-es').onclick = () => setLang('es');
+document.getElementById('lang-en').onclick = () => setLang('en');
+</script>
+
+</body>
+</html>
