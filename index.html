@@ -3,435 +3,662 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Turismo Inteligente - PMV</title>
+<title>Turismo Inteligente Colombia - PMV</title>
 <style>
-  :root{
-    --purple-900:#3b1664;
-    --purple-700:#5b21b6;
-    --purple-500:#7c3aed;
-    --purple-100:#ede6fb;
-    --cream:#faf8fc;
-    --ink:#1f1530;
-    --gold:#d4a942;
-    --green:#1f9d72;
-    --radius:18px;
-  }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  body{
-    font-family:'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: linear-gradient(160deg, #efe9fb 0%, #f7f4fb 60%, #fbf9f6 100%);
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:24px;
-    color:var(--ink);
-  }
-  .kiosk{
-    width:100%;
-    max-width:480px;
-    background:#fff;
-    border-radius:28px;
-    box-shadow:0 30px 60px -20px rgba(59,22,100,0.35), 0 0 0 1px rgba(91,33,182,0.08);
-    overflow:hidden;
-    border: 6px solid #1a1024;
-    position:relative;
-  }
-  .statusbar{
-    background:#1a1024;
-    color:#fff;
-    font-size:11px;
-    padding:6px 16px;
-    display:flex;
-    justify-content:space-between;
-    letter-spacing:.02em;
-    opacity:.85;
-  }
-  .topbar{
-    background: linear-gradient(120deg, var(--purple-900), var(--purple-700));
-    color:#fff;
-    padding:18px 20px 16px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-  }
-  .brand{display:flex; align-items:center; gap:10px;}
-  .brand-mark{
-    width:34px; height:34px; border-radius:10px;
-    background: rgba(255,255,255,0.15);
-    display:flex; align-items:center; justify-content:center;
-    font-size:18px;
-  }
-  .brand-text strong{display:block; font-size:14px; letter-spacing:.02em;}
-  .brand-text span{display:block; font-size:10px; opacity:.7; letter-spacing:.05em;}
-  .lang-toggle{display:flex; background:rgba(255,255,255,.15); border-radius:999px; padding:3px; font-size:11px;}
-  .lang-toggle button{
-    border:none; background:transparent; color:#fff; padding:5px 10px; border-radius:999px;
-    font-size:11px; cursor:pointer; opacity:.7;
-  }
-  .lang-toggle button.active{background:#fff; color:var(--purple-700); opacity:1; font-weight:600;}
+:root{
+  --p9:#3b1664;--p7:#5b21b6;--p5:#7c3aed;--p3:#a78bfa;--p1:#ede6fb;
+  --ink:#1f1530;--gold:#d4a942;--green:#1f9d72;--bg:#f0ebfc;
+  --bog:#5b21b6;--med:#c2410c;--car:#0e7490;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px;color:var(--ink);}
+.kiosk{width:100%;max-width:440px;background:#fff;border-radius:32px;box-shadow:0 32px 64px -20px rgba(59,22,100,.38),0 0 0 1px rgba(91,33,182,.1);overflow:hidden;border:6px solid #1a1024;}
+.statusbar{background:#1a1024;color:#fff;font-size:11px;padding:6px 16px;display:flex;justify-content:space-between;opacity:.8;}
+.topbar{background:linear-gradient(120deg,var(--p9),var(--p7));color:#fff;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;}
+.brand{display:flex;align-items:center;gap:10px;}
+.brand-mark{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:18px;}
+.brand-text strong{display:block;font-size:13px;}
+.brand-text span{display:block;font-size:10px;opacity:.65;letter-spacing:.03em;}
+.lang-toggle{display:flex;background:rgba(255,255,255,.15);border-radius:999px;padding:3px;}
+.lang-toggle button{border:none;background:transparent;color:#fff;padding:5px 11px;border-radius:999px;font-size:11px;cursor:pointer;opacity:.7;transition:all .2s;}
+.lang-toggle button.active{background:#fff;color:var(--p7);opacity:1;font-weight:700;}
+.screen{min-height:580px;display:flex;flex-direction:column;}
+.panel{padding:22px 20px;flex:1;display:flex;flex-direction:column;}
+.hidden{display:none!important;}
 
-  .screen{min-height:560px; display:flex; flex-direction:column;}
-  .panel{padding:24px 22px; flex:1; display:flex; flex-direction:column;}
-  .hidden{display:none !important;}
+/* ── CIUDAD ── */
+.city-eyebrow{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--p5);font-weight:700;margin-bottom:6px;}
+.city-title{font-size:21px;font-weight:800;color:var(--p9);line-height:1.22;margin-bottom:6px;}
+.city-sub{font-size:12px;color:#6b6178;line-height:1.5;margin-bottom:20px;}
+.city-grid{display:flex;flex-direction:column;gap:11px;flex:1;}
+.city-card{border-radius:18px;overflow:hidden;cursor:pointer;border:2.5px solid transparent;transition:all .18s ease;position:relative;}
+.city-card:hover{transform:translateY(-2px);box-shadow:0 12px 28px -8px rgba(0,0,0,.18);}
+.city-card:active{transform:scale(.98);}
+.city-bg{height:90px;display:flex;align-items:flex-end;padding:12px 14px;position:relative;}
+.city-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,rgba(0,0,0,.1) 60%,transparent 100%);}
+.city-card.bog .city-bg{background:linear-gradient(135deg,#3b1664,#7c3aed);}
+.city-card.med .city-bg{background:linear-gradient(135deg,#7c2d12,#ea580c);}
+.city-card.car .city-bg{background:linear-gradient(135deg,#164e63,#0891b2);}
+.city-emoji{font-size:32px;position:absolute;top:12px;right:14px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3));}
+.city-info{position:relative;z-index:1;}
+.city-info strong{display:block;font-size:15px;font-weight:800;color:#fff;}
+.city-info span{font-size:11px;color:rgba(255,255,255,.8);}
+.city-tags{display:flex;gap:5px;flex-wrap:wrap;padding:9px 12px;background:#faf8fc;}
+.city-tag{font-size:10px;font-weight:600;padding:3px 9px;border-radius:999px;}
+.bog .city-tag{background:#ede6fb;color:var(--p7);}
+.med .city-tag{background:#ffedd5;color:#c2410c;}
+.car .city-tag{background:#cffafe;color:#0e7490;}
 
-  /* Pantalla inicio */
-  .hero-title{font-size:21px; font-weight:700; color:var(--purple-900); line-height:1.25; margin-bottom:6px;}
-  .hero-sub{font-size:13px; color:#6b6178; margin-bottom:26px;}
-  .start-illustration{
-    width:100%; height:140px; border-radius:16px;
-    background: linear-gradient(135deg, var(--purple-100), #f3eafe);
-    display:flex; align-items:center; justify-content:center;
-    font-size:46px; margin-bottom:26px;
-  }
-  .btn-primary{
-    background: linear-gradient(120deg, var(--purple-700), var(--purple-500));
-    color:#fff; border:none; padding:16px; border-radius:14px;
-    font-size:15px; font-weight:600; cursor:pointer;
-    box-shadow:0 10px 24px -8px rgba(91,33,182,0.5);
-    transition: transform .15s ease;
-  }
-  .btn-primary:active{transform:scale(.97);}
-  .tap-hint{text-align:center; font-size:11px; color:#9b91a8; margin-top:14px; letter-spacing:.04em;}
+/* ── PREGUNTAS ── */
+.progress{display:flex;gap:5px;margin-bottom:16px;}
+.progress span{height:5px;flex:1;background:var(--p1);border-radius:4px;overflow:hidden;}
+.progress span i{display:block;height:100%;width:0%;background:var(--p5);transition:width .35s ease;}
+.q-label{font-size:10px;color:var(--p5);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}
+.q-title{font-size:17px;font-weight:800;margin-bottom:18px;line-height:1.3;color:var(--p9);}
+.options{display:flex;flex-direction:column;gap:9px;flex:1;}
+.opt{display:flex;align-items:center;gap:12px;border:2px solid #ece6f5;background:#fff;border-radius:14px;padding:11px 14px;cursor:pointer;font-size:14px;font-weight:600;color:var(--ink);transition:all .15s ease;-webkit-tap-highlight-color:transparent;}
+.opt:hover,.opt:active{border-color:var(--p5);background:var(--p1);transform:translateX(3px);}
+.opt .ic{font-size:22px;min-width:28px;text-align:center;}
+.opt-info{display:flex;flex-direction:column;}
+.opt-info small{font-size:11px;color:#8878a0;font-weight:400;margin-top:1px;}
+.nav-row{display:flex;justify-content:space-between;margin-top:14px;}
+.link-btn{background:none;border:none;color:#9b91a8;cursor:pointer;font-size:12px;padding:4px 0;}
 
-  /* Pantalla pregunta */
-  .progress{display:flex; gap:5px; margin-bottom:18px;}
-  .progress span{height:4px; flex:1; background:var(--purple-100); border-radius:4px; overflow:hidden;}
-  .progress span i{display:block; height:100%; width:0%; background:var(--purple-500); transition:width .3s ease;}
-  .q-label{font-size:11px; color:var(--purple-500); font-weight:700; letter-spacing:.06em; text-transform:uppercase; margin-bottom:8px;}
-  .q-title{font-size:17px; font-weight:700; margin-bottom:20px; line-height:1.35;}
-  .options{display:flex; flex-direction:column; gap:10px; flex:1;}
-  .opt{
-    display:flex; align-items:center; gap:12px;
-    border:2px solid #ece6f5; background:#fff; border-radius:14px;
-    padding:13px 14px; cursor:pointer; font-size:14px; font-weight:600; color:var(--ink);
-    transition: all .15s ease;
-  }
-  .opt:hover{border-color:var(--purple-500); background:var(--purple-100);}
-  .opt .ic{font-size:20px;}
-  .nav-row{display:flex; justify-content:space-between; margin-top:18px; font-size:12px;}
-  .link-btn{background:none; border:none; color:#9b91a8; cursor:pointer; font-size:12px;}
+/* ── CARGANDO ── */
+.loading-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:20px;}
+.spinner{width:48px;height:48px;border-radius:50%;border:4px solid var(--p1);border-top-color:var(--p5);animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-city{font-size:36px;margin-bottom:-8px;}
+.loading-text{font-size:13px;color:#6b6178;font-weight:500;text-align:center;}
 
-  /* Pantalla cargando */
-  .loading-wrap{display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; gap:18px;}
-  .spinner{width:46px; height:46px; border-radius:50%; border:4px solid var(--purple-100); border-top-color:var(--purple-500); animation:spin 0.8s linear infinite;}
-  @keyframes spin{to{transform:rotate(360deg);}}
-  .loading-text{font-size:13px; color:#6b6178;}
-
-  /* Pantalla resultado */
-  .result-header{margin-bottom:16px;}
-  .result-eyebrow{font-size:11px; color:var(--purple-500); font-weight:700; text-transform:uppercase; letter-spacing:.06em;}
-  .result-title{font-size:19px; font-weight:700; color:var(--purple-900); margin-top:4px;}
-  .rec-card{
-    border-radius:16px; background:var(--purple-100); padding:16px; margin-bottom:12px;
-    display:flex; gap:12px; align-items:flex-start;
-  }
-  .rec-card .ic{font-size:26px;}
-  .rec-card h4{font-size:14px; margin-bottom:3px;}
-  .rec-card p{font-size:12px; color:#5c5468; line-height:1.4;}
-  .rec-tag{display:inline-block; font-size:10px; background:var(--green); color:#fff; padding:2px 8px; border-radius:999px; margin-top:6px;}
-  .qr-box{
-    margin-top:8px; border:2px dashed #d8cdee; border-radius:14px; padding:14px;
-    display:flex; align-items:center; gap:12px;
-  }
-  .qr-box .qr-icon{font-size:34px;}
-  .qr-box p{font-size:11px; color:#6b6178;}
-  .btn-secondary{
-    margin-top:16px; background:#fff; border:2px solid var(--purple-500); color:var(--purple-700);
-    padding:12px; border-radius:12px; font-weight:600; font-size:13px; cursor:pointer;
-  }
-
-  /* Feedback */
-  .feedback-row{display:flex; gap:8px; margin-top:6px;}
-  .feedback-row button{
-    flex:1; border:2px solid #ece6f5; background:#fff; border-radius:12px; padding:10px; font-size:13px; cursor:pointer;
-  }
-  .feedback-row button.sel{border-color:var(--gold); background:#fdf6e8;}
-
-  footer.note{
-    text-align:center; font-size:11px; color:#a89dbb; padding:10px 0 2px;
-  }
+/* ── RESULTADO ── */
+.result-city-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;margin-bottom:10px;}
+.result-city-badge.bog{background:#ede6fb;color:var(--p7);}
+.result-city-badge.med{background:#ffedd5;color:#c2410c;}
+.result-city-badge.car{background:#cffafe;color:#0e7490;}
+.result-title{font-size:18px;font-weight:800;color:var(--p9);line-height:1.25;margin-bottom:3px;}
+.result-subtitle{font-size:12px;color:#8878a0;margin-bottom:12px;}
+.rec-tabs{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:2px;}
+.rec-tab{border:2px solid #ece6f5;background:#fff;border-radius:999px;padding:6px 14px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;color:#6b6178;transition:all .15s;}
+.rec-tab.active{border-color:var(--p5);background:var(--p1);color:var(--p7);}
+.rec-content{display:none;flex-direction:column;gap:9px;}
+.rec-content.active{display:flex;}
+.rec-card{border-radius:14px;background:var(--p1);padding:13px;display:flex;gap:11px;align-items:flex-start;}
+.rec-card .ic{font-size:22px;min-width:28px;text-align:center;}
+.rec-card h4{font-size:13px;font-weight:700;margin-bottom:2px;}
+.rec-card p{font-size:11px;color:#5c5468;line-height:1.4;}
+.rec-card .price{font-size:11px;color:var(--green);font-weight:700;margin-top:4px;}
+.rec-card .badge{display:inline-block;font-size:10px;background:var(--p5);color:#fff;padding:2px 8px;border-radius:999px;margin-top:3px;}
+.rec-card.highlight{background:linear-gradient(135deg,#e9deff,#f3eaff);border:1.5px solid var(--p3);}
+.qr-box{margin-top:10px;border:2px dashed #d0c4ed;border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px;}
+.qr-box .qr-icon{font-size:30px;}
+.qr-box p{font-size:11px;color:#6b6178;line-height:1.4;}
+.feedback-section{margin-top:10px;}
+.feedback-row{display:flex;gap:7px;margin-top:7px;}
+.feedback-row button{flex:1;border:2px solid #ece6f5;background:#fff;border-radius:12px;padding:8px 4px;font-size:11px;cursor:pointer;transition:all .15s;font-weight:600;}
+.feedback-row button.sel{border-color:var(--gold);background:#fdf6e8;}
+.btn-secondary{margin-top:10px;background:#fff;border:2px solid var(--p5);color:var(--p7);padding:11px;border-radius:12px;font-weight:700;font-size:13px;cursor:pointer;width:100%;}
+footer.note{text-align:center;font-size:10px;color:#b0a8bc;padding:8px 0 2px;letter-spacing:.03em;}
 </style>
 </head>
 <body>
-
 <div class="kiosk">
-  <div class="statusbar"><span>Turismo Inteligente · POP-01</span><span id="clock">10:45</span></div>
+  <div class="statusbar">
+    <span id="loc-label">📍 Aeropuerto El Dorado · Terminal Internacional</span>
+    <span id="clock"></span>
+  </div>
   <div class="topbar">
     <div class="brand">
       <div class="brand-mark">🧭</div>
-      <div class="brand-text"><strong>Turismo Inteligente</strong><span>Aeropuerto El Dorado</span></div>
+      <div class="brand-text">
+        <strong>Turismo Inteligente</strong>
+        <span id="loc-sub">Colombia · Piloto POP-01</span>
+      </div>
     </div>
     <div class="lang-toggle">
-      <button class="active" id="lang-es">ES</button>
-      <button id="lang-en">EN</button>
+      <button id="btn-es" class="active" onclick="setLang('es')">ES</button>
+      <button id="btn-en" onclick="setLang('en')">EN</button>
     </div>
   </div>
 
   <div class="screen">
 
-    <!-- PANTALLA 0: INICIO -->
-    <div class="panel" id="screen-start">
-      <div class="hero-title" id="t-hero-title">Descubre tu próximo destino en Bogotá</div>
-      <div class="hero-sub" id="t-hero-sub">Responde 3 preguntas rápidas y recibe recomendaciones personalizadas de alojamiento, gastronomía y actividades.</div>
-      <div class="start-illustration">🗺️</div>
-      <div style="flex:1"></div>
-      <button class="btn-primary" id="btn-start" onclick="startFlow()">Comenzar mi experiencia →</button>
-      <div class="tap-hint" id="t-tap-hint">TOCA LA PANTALLA PARA COMENZAR</div>
+    <!-- CIUDAD -->
+    <div class="panel" id="screen-city">
+      <div class="city-eyebrow" id="t-eyebrow">Bienvenido · Welcome</div>
+      <div class="city-title" id="t-city-title">¿A qué ciudad vas?</div>
+      <div class="city-sub" id="t-city-sub">Selecciona tu destino y recibe un plan personalizado con alojamiento, gastronomía y actividades.</div>
+      <div class="city-grid">
+
+        <div class="city-card bog" onclick="selectCity('bog')">
+          <div class="city-bg">
+            <div class="city-emoji">🏙️</div>
+            <div class="city-info">
+              <strong id="c-bog-name">Bogotá</strong>
+              <span id="c-bog-sub">Capital · 2.600 m.s.n.m.</span>
+            </div>
+          </div>
+          <div class="city-tags">
+            <span class="city-tag" id="ct-bog-1">Museos</span>
+            <span class="city-tag" id="ct-bog-2">Gastronomía</span>
+            <span class="city-tag" id="ct-bog-3">Cultura</span>
+            <span class="city-tag" id="ct-bog-4">Vida nocturna</span>
+          </div>
+        </div>
+
+        <div class="city-card med" onclick="selectCity('med')">
+          <div class="city-bg">
+            <div class="city-emoji">🌸</div>
+            <div class="city-info">
+              <strong id="c-med-name">Medellín</strong>
+              <span id="c-med-sub">Ciudad de la Eterna Primavera · 1.495 m.s.n.m.</span>
+            </div>
+          </div>
+          <div class="city-tags">
+            <span class="city-tag" id="ct-med-1">Innovación</span>
+            <span class="city-tag" id="ct-med-2">Naturaleza</span>
+            <span class="city-tag" id="ct-med-3">Arte urbano</span>
+            <span class="city-tag" id="ct-med-4">Clima ideal</span>
+          </div>
+        </div>
+
+        <div class="city-card car" onclick="selectCity('car')">
+          <div class="city-bg">
+            <div class="city-emoji">🏖️</div>
+            <div class="city-info">
+              <strong id="c-car-name">Cartagena</strong>
+              <span id="c-car-sub">Ciudad Amurallada · Mar Caribe</span>
+            </div>
+          </div>
+          <div class="city-tags">
+            <span class="city-tag" id="ct-car-1">Playas</span>
+            <span class="city-tag" id="ct-car-2">Historia colonial</span>
+            <span class="city-tag" id="ct-car-3">Caribe</span>
+            <span class="city-tag" id="ct-car-4">Romántico</span>
+          </div>
+        </div>
+
+      </div>
     </div>
 
-    <!-- PANTALLA 1: PREGUNTAS -->
+    <!-- PREGUNTAS -->
     <div class="panel hidden" id="screen-questions">
-      <div class="progress">
-        <span><i id="bar1"></i></span><span><i id="bar2"></i></span><span><i id="bar3"></i></span>
-      </div>
-      <div class="q-label" id="q-counter">Pregunta 1 de 3</div>
-      <div class="q-title" id="q-title">¿Con quién viajas?</div>
+      <div class="progress" id="progress-bar"></div>
+      <div class="q-label" id="q-counter"></div>
+      <div class="q-title" id="q-title"></div>
       <div class="options" id="q-options"></div>
       <div class="nav-row">
-        <button class="link-btn" onclick="goBack()">← Atrás</button>
-        <button class="link-btn" onclick="resetFlow()">Reiniciar</button>
+        <button class="link-btn" id="btn-back" onclick="goBack()">← Atrás</button>
+        <button class="link-btn" id="btn-restart" onclick="resetFlow()">Reiniciar</button>
       </div>
     </div>
 
-    <!-- PANTALLA 2: CARGANDO -->
+    <!-- CARGANDO -->
     <div class="panel hidden" id="screen-loading">
       <div class="loading-wrap">
+        <div class="loading-city" id="loading-city-emoji">🗺️</div>
         <div class="spinner"></div>
-        <div class="loading-text">Analizando tus preferencias…</div>
+        <div class="loading-text" id="loading-text">Analizando tus preferencias...</div>
       </div>
     </div>
 
-    <!-- PANTALLA 3: RESULTADO -->
+    <!-- RESULTADO -->
     <div class="panel hidden" id="screen-result">
-      <div class="result-header">
-        <div class="result-eyebrow">Tu plan recomendado</div>
-        <div class="result-title" id="result-title">Hecho para ti</div>
-      </div>
-      <div id="rec-list"></div>
+      <div class="result-city-badge" id="result-city-badge"></div>
+      <div class="result-title" id="result-title"></div>
+      <div class="result-subtitle" id="result-subtitle"></div>
+      <div class="rec-tabs" id="rec-tabs"></div>
+      <div id="rec-panels"></div>
       <div class="qr-box">
         <div class="qr-icon">▦</div>
-        <p>Escanea este código para guardar tu plan y consultarlo desde tu celular cuando quieras.</p>
+        <p id="t-qr">Escanea para guardar tu plan y consultarlo desde tu celular.</p>
       </div>
-      <div style="flex:1"></div>
-      <div class="q-label" style="margin-top:18px;">¿Qué tan útil fue esta recomendación?</div>
-      <div class="feedback-row" id="feedback-row">
-        <button onclick="rate(this,'malo')">🙁 Poco útil</button>
-        <button onclick="rate(this,'regular')">😐 Regular</button>
-        <button onclick="rate(this,'bueno')">🤩 Muy útil</button>
+      <div class="feedback-section">
+        <div class="q-label" id="t-feedback-label">¿Qué tan útil fue esta recomendación?</div>
+        <div class="feedback-row" id="feedback-row">
+          <button onclick="rate(this,'malo')" id="fb1">🙁 Poco útil</button>
+          <button onclick="rate(this,'regular')" id="fb2">😐 Regular</button>
+          <button onclick="rate(this,'bueno')" id="fb3">🤩 Muy útil</button>
+        </div>
       </div>
-      <button class="btn-secondary" onclick="resetFlow()">Hacer otra consulta</button>
+      <button class="btn-secondary" id="btn-again" onclick="resetFlow()">Hacer otra consulta</button>
     </div>
 
   </div>
-  <footer class="note">Prototipo PMV — Sprint 1 · Versión de prueba con usuarios</footer>
+  <footer class="note" id="t-footer">Prototipo PMV — Sprint 1 · Prueba piloto con usuarios · Colombia</footer>
 </div>
 
 <script>
-const screens = {
-  start: document.getElementById('screen-start'),
-  questions: document.getElementById('screen-questions'),
-  loading: document.getElementById('screen-loading'),
-  result: document.getElementById('screen-result'),
+// ══════════════════════════════════════
+//  I18N
+// ══════════════════════════════════════
+const TX = {
+  es:{
+    eyebrow:"Bienvenido · Welcome",
+    cityTitle:"¿A qué ciudad vas?",
+    citySub:"Selecciona tu destino y recibe un plan personalizado con alojamiento, gastronomía y actividades.",
+    bogSub:"Capital · 2.600 m.s.n.m.",
+    medSub:"Ciudad de la Eterna Primavera · 1.495 m.s.n.m.",
+    carSub:"Ciudad Amurallada · Mar Caribe",
+    bogTags:["Museos","Gastronomía","Cultura","Vida nocturna"],
+    medTags:["Innovación","Naturaleza","Arte urbano","Clima ideal"],
+    carTags:["Playas","Historia colonial","Caribe","Romántico"],
+    qCounter:"Pregunta {n} de {t}",
+    loading:"Analizando tus preferencias...",
+    planLabel:"Tu plan recomendado",
+    qrText:"Escanea para guardar tu plan y consultarlo desde tu celular.",
+    feedbackLabel:"¿Qué tan útil fue esta recomendación?",
+    f1:"🙁 Poco útil",f2:"😐 Regular",f3:"🤩 Muy útil",
+    btnAgain:"Hacer otra consulta",
+    btnBack:"← Atrás",btnRestart:"Reiniciar",
+    footer:"Prototipo PMV — Sprint 1 · Prueba piloto con usuarios · Colombia",
+    locLabel:"📍 Aeropuerto El Dorado · Terminal Internacional",
+    locSub:"Colombia · Piloto POP-01",
+    tabAloj:"🛏 Alojamiento",tabGastro:"🍽 Gastronomía",tabActiv:"🎯 Actividades",
+    recTitle:"Plan para viajero {comp}",
+    recSub:"{dias} · {exp} · Presupuesto: {budget}",
+    cityNames:{bog:"Bogotá",med:"Medellín",car:"Cartagena"},
+    cityEmojis:{bog:"🏙️",med:"🌸",car:"🏖️"},
+  },
+  en:{
+    eyebrow:"Bienvenido · Welcome",
+    cityTitle:"Which city are you visiting?",
+    citySub:"Select your destination and receive a personalized plan with accommodation, food & activities.",
+    bogSub:"Capital · 2,600 m.a.s.l.",
+    medSub:"City of Eternal Spring · 1,495 m.a.s.l.",
+    carSub:"Walled City · Caribbean Sea",
+    bogTags:["Museums","Gastronomy","Culture","Nightlife"],
+    medTags:["Innovation","Nature","Street art","Perfect weather"],
+    carTags:["Beaches","Colonial history","Caribbean","Romantic"],
+    qCounter:"Question {n} of {t}",
+    loading:"Analyzing your preferences...",
+    planLabel:"Your recommended plan",
+    qrText:"Scan to save your plan and check it later from your phone.",
+    feedbackLabel:"How useful was this recommendation?",
+    f1:"🙁 Not useful",f2:"😐 Average",f3:"🤩 Very useful",
+    btnAgain:"New search",
+    btnBack:"← Back",btnRestart:"Restart",
+    footer:"MVP Prototype — Sprint 1 · User pilot test · Colombia",
+    locLabel:"📍 El Dorado Airport · International Terminal",
+    locSub:"Colombia · Pilot POP-01",
+    tabAloj:"🛏 Accommodation",tabGastro:"🍽 Food",tabActiv:"🎯 Activities",
+    recTitle:"Plan for {comp} traveler",
+    recSub:"{dias} · {exp} · Budget: {budget}",
+    cityNames:{bog:"Bogotá",med:"Medellín",car:"Cartagena"},
+    cityEmojis:{bog:"🏙️",med:"🌸",car:"🏖️"},
+  }
 };
 
-function show(name){
-  Object.values(screens).forEach(s => s.classList.add('hidden'));
-  screens[name].classList.remove('hidden');
+let lang='es';
+function t(k){return(TX[lang][k]||TX.es[k]||k);}
+
+function setLang(l){
+  lang=l;
+  document.getElementById('btn-es').classList.toggle('active',l==='es');
+  document.getElementById('btn-en').classList.toggle('active',l==='en');
+  applyAllTexts();
+  if(!document.getElementById('screen-questions').classList.contains('hidden')) renderQuestion();
+  if(!document.getElementById('screen-result').classList.contains('hidden')) renderResult();
 }
 
-// Estructura de preguntas
-const questions = [
-  {
-    title: "¿Con quién viajas?",
-    key: "companía",
-    options: [
-      {ic:"🧍", label:"Solo"},
-      {ic:"💑", label:"Pareja"},
-      {ic:"👨‍👩‍👧", label:"Familia"},
-      {ic:"🧑‍🤝‍🧑", label:"Amigos"},
-    ]
+function applyAllTexts(){
+  document.getElementById('loc-label').textContent=t('locLabel');
+  document.getElementById('loc-sub').textContent=t('locSub');
+  document.getElementById('t-eyebrow').textContent=t('eyebrow');
+  document.getElementById('t-city-title').textContent=t('cityTitle');
+  document.getElementById('t-city-sub').textContent=t('citySub');
+  document.getElementById('c-bog-sub').textContent=t('bogSub');
+  document.getElementById('c-med-sub').textContent=t('medSub');
+  document.getElementById('c-car-sub').textContent=t('carSub');
+  [['bog',4],['med',4],['car',4]].forEach(([city,n])=>{
+    for(let i=1;i<=n;i++){
+      const el=document.getElementById(`ct-${city}-${i}`);
+      if(el) el.textContent=t(city+'Tags')[i-1]||'';
+    }
+  });
+  document.getElementById('t-footer').textContent=t('footer');
+  document.getElementById('btn-back').textContent=t('btnBack');
+  document.getElementById('btn-restart').textContent=t('btnRestart');
+  document.getElementById('t-qr').textContent=t('qrText');
+  document.getElementById('t-feedback-label').textContent=t('feedbackLabel');
+  document.getElementById('fb1').textContent=t('f1');
+  document.getElementById('fb2').textContent=t('f2');
+  document.getElementById('fb3').textContent=t('f3');
+  document.getElementById('btn-again').textContent=t('btnAgain');
+  document.getElementById('loading-text').textContent=t('loading');
+}
+
+// ══════════════════════════════════════
+//  PREGUNTAS
+// ══════════════════════════════════════
+const QS={
+  es:[
+    {key:"comp",title:"¿Con quién viajas?",opts:[
+      {ic:"🧍",label:"Solo/a",sub:"Viajero independiente"},
+      {ic:"💑",label:"Pareja",sub:"Romántico o aventurero"},
+      {ic:"👨‍👩‍👧",label:"Familia",sub:"Con niños o adultos"},
+      {ic:"🧑‍🤝‍🧑",label:"Amigos",sub:"Grupo de 3 o más"},
+    ]},
+    {key:"exp",title:"¿Qué tipo de experiencia prefieres?",opts:[
+      {ic:"⛰️",label:"Aventura y naturaleza",sub:"Senderismo, deportes, parques"},
+      {ic:"🏛️",label:"Cultura e historia",sub:"Museos, barrios históricos"},
+      {ic:"🍲",label:"Gastronomía",sub:"Mercados, restaurantes locales"},
+      {ic:"🧘",label:"Bienestar y relax",sub:"Spas, jardines, ritmo tranquilo"},
+      {ic:"🎉",label:"Entretenimiento",sub:"Rumba, shows, vida nocturna"},
+    ]},
+    {key:"dias",title:"¿Cuántos días estarás?",opts:[
+      {ic:"⚡",label:"1 día",sub:"Escala o tránsito"},
+      {ic:"📅",label:"2 – 3 días",sub:"Fin de semana"},
+      {ic:"🗓️",label:"4 – 7 días",sub:"Semana completa"},
+      {ic:"🌍",label:"Más de 7 días",sub:"Estadía larga"},
+    ]},
+    {key:"budget",title:"¿Cuál es tu presupuesto por día?",opts:[
+      {ic:"💵",label:"Económico",sub:"Menos de $150.000 COP"},
+      {ic:"💰",label:"Moderado",sub:"$150.000 – $400.000 COP"},
+      {ic:"💎",label:"Premium",sub:"Más de $400.000 COP"},
+    ]},
+  ],
+  en:[
+    {key:"comp",title:"Who are you traveling with?",opts:[
+      {ic:"🧍",label:"Solo",sub:"Independent traveler"},
+      {ic:"💑",label:"Couple",sub:"Romantic or adventurous"},
+      {ic:"👨‍👩‍👧",label:"Family",sub:"With kids or seniors"},
+      {ic:"🧑‍🤝‍🧑",label:"Friends",sub:"Group of 3 or more"},
+    ]},
+    {key:"exp",title:"What kind of experience do you prefer?",opts:[
+      {ic:"⛰️",label:"Adventure & nature",sub:"Hiking, sports, parks"},
+      {ic:"🏛️",label:"Culture & history",sub:"Museums, historic districts"},
+      {ic:"🍲",label:"Gastronomy",sub:"Markets, local restaurants"},
+      {ic:"🧘",label:"Wellness & relaxation",sub:"Spas, gardens, slow pace"},
+      {ic:"🎉",label:"Entertainment",sub:"Nightlife, shows, events"},
+    ]},
+    {key:"dias",title:"How many days will you stay?",opts:[
+      {ic:"⚡",label:"1 day",sub:"Layover or transit"},
+      {ic:"📅",label:"2 – 3 days",sub:"Weekend"},
+      {ic:"🗓️",label:"4 – 7 days",sub:"Full week"},
+      {ic:"🌍",label:"More than 7 days",sub:"Extended stay"},
+    ]},
+    {key:"budget",title:"What is your daily budget?",opts:[
+      {ic:"💵",label:"Budget",sub:"Less than $40 USD/day"},
+      {ic:"💰",label:"Moderate",sub:"$40 – $110 USD/day"},
+      {ic:"💎",label:"Premium",sub:"More than $110 USD/day"},
+    ]},
+  ]
+};
+
+// ══════════════════════════════════════
+//  BASE DE DATOS POR CIUDAD
+// ══════════════════════════════════════
+const DB={
+  bog:{
+    aloj:{
+      eco:{
+        es:[
+          {ic:"🏠",name:"Masaya Hostel Bogotá",desc:"Hostal boutique en La Candelaria con arte colombiano. Privadas y compartidas.",price:"Desde $55.000/noche",badge:"Top Hostal"},
+          {ic:"🛏",name:"Selina Bogotá Gold",desc:"Coworking + alojamiento en Chapinero, comunidad viajera activa.",price:"Desde $70.000/noche"},
+          {ic:"🏡",name:"Casa Platypus",desc:"Guesthouse colonial en La Candelaria, ambiente familiar.",price:"Desde $50.000/noche"},
+        ],
+        en:[
+          {ic:"🏠",name:"Masaya Hostel Bogotá",desc:"Boutique hostel in La Candelaria with Colombian art.",price:"From $14 USD/night",badge:"Top Hostel"},
+          {ic:"🛏",name:"Selina Bogotá Gold",desc:"Coworking + lodging in Chapinero, active travel community.",price:"From $18 USD/night"},
+          {ic:"🏡",name:"Casa Platypus",desc:"Colonial guesthouse in La Candelaria.",price:"From $13 USD/night"},
+        ]
+      },
+      mid:{
+        es:[
+          {ic:"🏨",name:"Hotel 101 Park House",desc:"Diseño moderno en Chapinero Alto, desayuno incluido.",price:"Desde $220.000/noche",badge:"Recomendado"},
+          {ic:"🏨",name:"GHL Collection 93",desc:"Boutique en el Parque 93, zona gastronómica y entretenimiento.",price:"Desde $250.000/noche"},
+          {ic:"🏠",name:"Apartamento Zona Rosa",desc:"Apartamento completo ideal para más de 3 noches.",price:"Desde $180.000/noche"},
+        ],
+        en:[
+          {ic:"🏨",name:"Hotel 101 Park House",desc:"Modern design in Chapinero Alto, breakfast included.",price:"From $58 USD/night",badge:"Recommended"},
+          {ic:"🏨",name:"GHL Collection 93",desc:"Boutique at Parque 93, food & entertainment district.",price:"From $65 USD/night"},
+          {ic:"🏠",name:"Zona Rosa Apartment",desc:"Full apartment, great for stays over 3 nights.",price:"From $47 USD/night"},
+        ]
+      },
+      lux:{
+        es:[
+          {ic:"⭐",name:"Hotel Click Clack Bogotá",desc:"Diseño icónico en Zona Rosa, rooftop bar con vista a los cerros.",price:"Desde $480.000/noche",badge:"5 estrellas"},
+          {ic:"⭐",name:"Casa Dann Carlton",desc:"Lujo clásico en el Parque 93, reconocido por su gastronomía.",price:"Desde $560.000/noche"},
+          {ic:"⭐",name:"W Bogotá",desc:"Vanguardia en la Calle 26, spa de clase mundial.",price:"Desde $650.000/noche"},
+        ],
+        en:[
+          {ic:"⭐",name:"Hotel Click Clack Bogotá",desc:"Iconic design in Zona Rosa, rooftop bar with mountain views.",price:"From $126 USD/night",badge:"5 stars"},
+          {ic:"⭐",name:"Casa Dann Carlton",desc:"Classic luxury at Parque 93, renowned for gastronomy.",price:"From $148 USD/night"},
+          {ic:"⭐",name:"W Bogotá",desc:"Avant-garde on Calle 26, world-class spa.",price:"From $170 USD/night"},
+        ]
+      }
+    },
+    gastro:{
+      aventura:{es:[{ic:"🔥",name:"Carbón de Palo",desc:"Parrilla colombiana tradicional en Chapinero.",price:"~$45.000",badge:"Local favorito"},{ic:"🌿",name:"La Piscina de las Nieves",desc:"Restaurante campestre con trucha fresca y cocina de montaña.",price:"~$35.000"}],en:[{ic:"🔥",name:"Carbón de Palo",desc:"Traditional Colombian grill in Chapinero.",price:"~$12 USD",badge:"Local favorite"},{ic:"🌿",name:"La Piscina de las Nieves",desc:"Countryside restaurant with fresh trout and mountain cuisine.",price:"~$9 USD"}]},
+      cultura:{es:[{ic:"☕",name:"Café San Alberto",desc:"Cata de café de origen en La Candelaria. El mejor café de Colombia.",price:"~$18.000",badge:"Imperdible"},{ic:"🍽",name:"La Puerta Falsa",desc:"El restaurante más antiguo de Bogotá (1816), ajiaco y chocolate.",price:"~$30.000"},{ic:"🥘",name:"Mini-Mal",desc:"Alta cocina colombiana con ingredientes amazónicos.",price:"~$90.000"}],en:[{ic:"☕",name:"Café San Alberto",desc:"Single-origin coffee tasting in La Candelaria.",price:"~$5 USD",badge:"Must visit"},{ic:"🍽",name:"La Puerta Falsa",desc:"Bogotá's oldest restaurant (1816), ajiaco and hot chocolate.",price:"~$8 USD"},{ic:"🥘",name:"Mini-Mal",desc:"Colombian haute cuisine with Amazonian ingredients.",price:"~$24 USD"}]},
+      gastro:{es:[{ic:"🛒",name:"Mercado de Paloquemao",desc:"El mercado más vibrante. Frutas exóticas, jugos y comida típica.",price:"~$15.000",badge:"Experiencia única"},{ic:"🍜",name:"Andrés DC",desc:"Gastronomía y cultura inigualables. Cocina colombiana festiva.",price:"~$80.000"},{ic:"🐟",name:"La Provincia",desc:"Mariscos del Pacífico colombiano en Zona Rosa.",price:"~$60.000"}],en:[{ic:"🛒",name:"Paloquemao Market",desc:"Most vibrant market. Exotic fruits, juices and local food.",price:"~$4 USD",badge:"Unique experience"},{ic:"🍜",name:"Andrés DC",desc:"Unmatched gastronomy and culture. Festive Colombian cuisine.",price:"~$21 USD"},{ic:"🐟",name:"La Provincia",desc:"Pacific seafood in Zona Rosa.",price:"~$16 USD"}]},
+      relax:{es:[{ic:"🫖",name:"Masa Bakery & Café",desc:"Panadería artesanal en Chapinero, perfecta para desayuno tranquilo.",price:"~$25.000"},{ic:"🌱",name:"Quinua & Amaranto",desc:"Restaurante saludable en Usaquén, ingredientes orgánicos andinos.",price:"~$40.000"}],en:[{ic:"🫖",name:"Masa Bakery & Café",desc:"Artisan bakery in Chapinero, perfect for a slow breakfast.",price:"~$7 USD"},{ic:"🌱",name:"Quinua & Amaranto",desc:"Healthy restaurant in Usaquén, Andean organic ingredients.",price:"~$11 USD"}]},
+      entretenimiento:{es:[{ic:"🥃",name:"Zona Gastronómica Parque 93",desc:"+40 restaurantes y bares. El corazón gastronómico de Bogotá.",price:"~$50.000–$100.000"},{ic:"🍹",name:"La Hamburguesería",desc:"Burgers craft con cervezas artesanales en Usaquén.",price:"~$35.000"}],en:[{ic:"🥃",name:"Parque 93 Food Zone",desc:"+40 restaurants and bars. Bogotá's gastronomic heart.",price:"~$13–26 USD"},{ic:"🍹",name:"La Hamburguesería",desc:"Craft burgers with artisan beers in Usaquén.",price:"~$9 USD"}]}
+    },
+    activ:{
+      aventura:{es:[{ic:"🚵",name:"Ciclomontañismo Cerro de Suba",desc:"Ruta guiada de 3h apta para principiantes.",price:"~$70.000",badge:"Guía incluido"},{ic:"🥾",name:"Páramo de Sumapaz",desc:"El páramo urbano más grande del mundo. 2h de Bogotá.",price:"~$120.000"},{ic:"🪂",name:"Parapente en Suesca",desc:"Vuelo a 1.5h de Bogotá. Vistas espectaculares.",price:"~$200.000"}],en:[{ic:"🚵",name:"Mountain Biking Cerro de Suba",desc:"3-hour guided route, beginner-friendly.",price:"~$19 USD",badge:"Guide included"},{ic:"🥾",name:"Sumapaz Páramo",desc:"World's largest urban páramo. 2h from Bogotá.",price:"~$32 USD"},{ic:"🪂",name:"Paragliding Suesca",desc:"Flight 1.5h from Bogotá. Spectacular views.",price:"~$53 USD"}]},
+      cultura:{es:[{ic:"🥇",name:"Museo del Oro",desc:"La colección de orfebrería precolombina más importante del mundo.",price:"Desde $5.000",badge:"Patrimonio"},{ic:"🎨",name:"Museo Botero",desc:"Obras de Fernando Botero y arte internacional. Entrada gratuita.",price:"Gratuito"},{ic:"🚶",name:"Tour a pie La Candelaria",desc:"Recorrido histórico de 2.5h por el centro histórico.",price:"~$40.000"}],en:[{ic:"🥇",name:"Gold Museum",desc:"Most important pre-Columbian goldwork collection in the world.",price:"From $1.5 USD",badge:"Heritage"},{ic:"🎨",name:"Botero Museum",desc:"Works by Botero and international art. Free admission.",price:"Free"},{ic:"🚶",name:"La Candelaria Walking Tour",desc:"2.5-hour historical tour through Bogotá's old town.",price:"~$11 USD"}]},
+      gastro:{es:[{ic:"🍳",name:"Clase de cocina colombiana",desc:"Aprende a preparar ajiaco, bandeja paisa y patacones.",price:"~$150.000",badge:"Experiencial"},{ic:"🧃",name:"Tour frutas Paloquemao",desc:"Guía local presenta 20+ frutas tropicales únicas.",price:"~$45.000"}],en:[{ic:"🍳",name:"Colombian Cooking Class",desc:"Learn to prepare ajiaco, bandeja paisa and patacones.",price:"~$40 USD",badge:"Experiential"},{ic:"🧃",name:"Exotic Fruit Tour Paloquemao",desc:"Local guide presents 20+ unique tropical fruits.",price:"~$12 USD"}]},
+      relax:{es:[{ic:"🌸",name:"Jardín Botánico de Bogotá",desc:"92 hectáreas de flora andina. Caminata tranquila.",price:"~$5.000"},{ic:"💆",name:"Spa Ritual Temazcal",desc:"Ritual de purificación indígena con plantas colombianas.",price:"~$180.000"}],en:[{ic:"🌸",name:"Bogotá Botanical Garden",desc:"92 hectares of Andean flora. Peaceful walk.",price:"~$1.5 USD"},{ic:"💆",name:"Temazcal Spa Ritual",desc:"Indigenous purification ritual with Colombian plants.",price:"~$47 USD"}]},
+      entretenimiento:{es:[{ic:"🎵",name:"Andrés Carne de Res",desc:"La experiencia más famosa de Colombia. Música en vivo y show.",price:"~$80.000",badge:"Ícono"},{ic:"🎪",name:"Ciclovía Dominical",desc:"120 km de vías cerradas cada domingo para ciclistas y familias.",price:"Gratuito"}],en:[{ic:"🎵",name:"Andrés Carne de Res",desc:"Colombia's most famous entertainment experience.",price:"~$21 USD",badge:"Icon"},{ic:"🎪",name:"Sunday Ciclovía",desc:"120 km of closed roads every Sunday for cyclists and families.",price:"Free"}]}
+    }
   },
-  {
-    title: "¿Qué tipo de experiencia prefieres?",
-    key: "experiencia",
-    options: [
-      {ic:"⛰️", label:"Aventura"},
-      {ic:"🧘", label:"Relajación"},
-      {ic:"🏛️", label:"Cultura"},
-      {ic:"🍲", label:"Gastronomía"},
-    ]
+
+  med:{
+    aloj:{
+      eco:{
+        es:[{ic:"🏠",name:"Medellín Inn Hostel",desc:"Hostal céntrico en El Poblado, zona segura y animada. Desayuno incluido.",price:"Desde $60.000/noche",badge:"Top Hostal"},{ic:"🛏",name:"Selina Medellín",desc:"Coworking + alojamiento en Laureles con piscina y terraza.",price:"Desde $75.000/noche"},{ic:"🏡",name:"Casa Kiwi Hostel",desc:"Ambiente relajado en El Poblado, ideal para viajeros solos.",price:"Desde $55.000/noche"}],
+        en:[{ic:"🏠",name:"Medellín Inn Hostel",desc:"Central hostel in El Poblado, safe and vibrant area. Breakfast included.",price:"From $16 USD/night",badge:"Top Hostel"},{ic:"🛏",name:"Selina Medellín",desc:"Coworking + lodging in Laureles with pool and terrace.",price:"From $20 USD/night"},{ic:"🏡",name:"Casa Kiwi Hostel",desc:"Relaxed vibe in El Poblado, ideal for solo travelers.",price:"From $14 USD/night"}]
+      },
+      mid:{
+        es:[{ic:"🏨",name:"Hotel Diez Medellín",desc:"Boutique en el Parque del Poblado, diseño contemporáneo.",price:"Desde $230.000/noche",badge:"Recomendado"},{ic:"🏨",name:"NH Collection Royal",desc:"Hotel moderno con spa y vista panorámica de Medellín.",price:"Desde $280.000/noche"},{ic:"🏠",name:"Apartamento Laureles",desc:"Barrio tranquilo y auténtico, perfecto para largas estadías.",price:"Desde $190.000/noche"}],
+        en:[{ic:"🏨",name:"Hotel Diez Medellín",desc:"Boutique at Parque del Poblado, contemporary design.",price:"From $61 USD/night",badge:"Recommended"},{ic:"🏨",name:"NH Collection Royal",desc:"Modern hotel with spa and panoramic views of Medellín.",price:"From $74 USD/night"},{ic:"🏠",name:"Laureles Apartment",desc:"Quiet and authentic neighborhood, perfect for long stays.",price:"From $50 USD/night"}]
+      },
+      lux:{
+        es:[{ic:"⭐",name:"Charlee Lifestyle Hotel",desc:"El hotel más icónico de El Poblado. Rooftop bar y piscina infinita.",price:"Desde $520.000/noche",badge:"5 estrellas"},{ic:"⭐",name:"Casa Entonces",desc:"Hotel boutique de lujo en una casona restaurada del siglo XX.",price:"Desde $580.000/noche"},{ic:"⭐",name:"The Virrey Hotel",desc:"Suite con vistas a la ciudad, spa y gastronomía gourmet.",price:"Desde $700.000/noche"}],
+        en:[{ic:"⭐",name:"Charlee Lifestyle Hotel",desc:"Most iconic hotel in El Poblado. Rooftop bar and infinity pool.",price:"From $137 USD/night",badge:"5 stars"},{ic:"⭐",name:"Casa Entonces",desc:"Luxury boutique hotel in a restored 20th-century mansion.",price:"From $153 USD/night"},{ic:"⭐",name:"The Virrey Hotel",desc:"City-view suite, spa and gourmet dining.",price:"From $184 USD/night"}]
+      }
+    },
+    gastro:{
+      aventura:{es:[{ic:"🥩",name:"El Cielo Restaurante",desc:"Experiencia gastronómica de vanguardia, chef Juan Manuel Barrientos.",price:"~$120.000",badge:"Estrella Michelin"},{ic:"🍺",name:"Cervecería Libre",desc:"Cervezas artesanales y comida de picada en El Poblado.",price:"~$40.000"}],en:[{ic:"🥩",name:"El Cielo Restaurant",desc:"Avant-garde dining experience by chef Juan Manuel Barrientos.",price:"~$32 USD",badge:"Michelin Star"},{ic:"🍺",name:"Cervecería Libre",desc:"Craft beers and tapas in El Poblado.",price:"~$11 USD"}]},
+      cultura:{es:[{ic:"☕",name:"Café Pergamino",desc:"El mejor café de especialidad de Medellín en El Poblado.",price:"~$15.000",badge:"Imperdible"},{ic:"🍽",name:"Occidens Restaurante",desc:"Cocina tradicional antioqueña actualizada con productos locales.",price:"~$55.000"}],en:[{ic:"☕",name:"Café Pergamino",desc:"Medellín's best specialty coffee in El Poblado.",price:"~$4 USD",badge:"Must visit"},{ic:"🍽",name:"Occidens Restaurant",desc:"Updated traditional Antioquian cuisine with local products.",price:"~$14 USD"}]},
+      gastro:{es:[{ic:"🛒",name:"Mercado del Río",desc:"Mercado gastronómico con +40 propuestas culinarias bajo un mismo techo.",price:"~$30.000–$60.000",badge:"Experiencia única"},{ic:"🫔",name:"La Fonda Paisa",desc:"Bandeja paisa, chicharrón y envueltos en un ambiente tradicional.",price:"~$35.000"},{ic:"🍦",name:"Tostadas y Paletas",desc:"Antojitos y helados artesanales de frutas tropicales.",price:"~$12.000"}],en:[{ic:"🛒",name:"Mercado del Río",desc:"Food market with +40 culinary concepts under one roof.",price:"~$8–16 USD",badge:"Unique experience"},{ic:"🫔",name:"La Fonda Paisa",desc:"Bandeja paisa, chicharrón and wraps in traditional setting.",price:"~$9 USD"},{ic:"🍦",name:"Tostadas y Paletas",desc:"Artisan tropical fruit popsicles and snacks.",price:"~$3 USD"}]},
+      relax:{es:[{ic:"🌿",name:"Jardín Botánico de Medellín",desc:"Mariposas, orquídeas y el Orquideorama. Entrada tranquila.",price:"~$4.000"},{ic:"💆",name:"Spa Kioto",desc:"Masajes y tratamientos con plantas medicinales colombianas.",price:"~$120.000"}],en:[{ic:"🌿",name:"Botanical Garden Medellín",desc:"Butterflies, orchids and the iconic Orquideorama.",price:"~$1 USD"},{ic:"💆",name:"Kioto Spa",desc:"Massages and treatments with Colombian medicinal plants.",price:"~$32 USD"}]},
+      entretenimiento:{es:[{ic:"🎵",name:"Parque Lleras y Zona Rosa",desc:"El corazón de la vida nocturna de Medellín en El Poblado.",price:"Libre"},{ic:"🎭",name:"Pueblito Paisa",desc:"Réplica de un pueblo antioqueño en el Cerro Nutibara. Vistas increíbles.",price:"Gratuito"}],en:[{ic:"🎵",name:"Parque Lleras & Zona Rosa",desc:"The heart of Medellín's nightlife in El Poblado.",price:"Free"},{ic:"🎭",name:"Pueblito Paisa",desc:"Replica Antioquian town on Cerro Nutibara. Incredible views.",price:"Free"}]}
+    },
+    activ:{
+      aventura:{es:[{ic:"🚡",name:"Teleférico a Santo Domingo",desc:"Metrocable con vista panorámica a los barrios de las comunas.",price:"~$5.500",badge:"Icónico"},{ic:"🌿",name:"Senderismo Parque Arví",desc:"Bosque nublado a 20 min en cable. Senderismo y ciclismo.",price:"~$25.000"},{ic:"🪂",name:"Parapente Rionegro",desc:"Vuelo en parapente a 40 min de Medellín sobre el Valle de Aburrá.",price:"~$180.000"}],en:[{ic:"🚡",name:"Cable Car to Santo Domingo",desc:"Metrocable with panoramic views of the comunas.",price:"~$1.5 USD",badge:"Iconic"},{ic:"🌿",name:"Arví Park Hiking",desc:"Cloud forest 20 min by cable car. Hiking and cycling.",price:"~$7 USD"},{ic:"🪂",name:"Paragliding Rionegro",desc:"Paragliding flight 40 min from Medellín over the Aburrá Valley.",price:"~$47 USD"}]},
+      cultura:{es:[{ic:"🎨",name:"Museo de Antioquia",desc:"La colección más importante de Fernando Botero y arte colombiano.",price:"Desde $20.000",badge:"Imperdible"},{ic:"🚶",name:"Tour de las Comunas",desc:"Recorrido guiado por las comunas 13. Arte urbano y transformación social.",price:"~$80.000"},{ic:"🏛",name:"Palacio de la Cultura",desc:"Arquitectura republicana y exposiciones permanentes de historia.",price:"Gratuito"}],en:[{ic:"🎨",name:"Museum of Antioquia",desc:"Most important collection of Botero and Colombian art.",price:"From $5 USD",badge:"Must visit"},{ic:"🚶",name:"Comunas Tour",desc:"Guided tour through comunas 13. Street art and social transformation.",price:"~$21 USD"},{ic:"🏛",name:"Palace of Culture",desc:"Republican architecture and permanent history exhibitions.",price:"Free"}]},
+      gastro:{es:[{ic:"🍫",name:"Tour del Café y Cacao",desc:"Visita a finca cafetera + degustación de cacao de origen.",price:"~$160.000",badge:"Experiencial"},{ic:"🍳",name:"Cocina con abuela paisa",desc:"Clase de cocina tradicional antioqueña con familia local.",price:"~$130.000"}],en:[{ic:"🍫",name:"Coffee & Cacao Tour",desc:"Coffee farm visit + single-origin cacao tasting.",price:"~$42 USD",badge:"Experiential"},{ic:"🍳",name:"Paisa Home Cooking Class",desc:"Traditional Antioquian cooking class with a local family.",price:"~$34 USD"}]},
+      relax:{es:[{ic:"🌸",name:"Jardín Botánico - Orquideorama",desc:"Paseo matutino entre orquídeas colombianas. Paz total.",price:"~$4.000"},{ic:"🏊",name:"Termas de Santa Rosa",desc:"Aguas termales naturales a 1.5h de Medellín.",price:"~$45.000"}],en:[{ic:"🌸",name:"Botanical Garden - Orquideorama",desc:"Morning stroll among Colombian orchids. Total peace.",price:"~$1 USD"},{ic:"🏊",name:"Santa Rosa Hot Springs",desc:"Natural thermal waters 1.5h from Medellín.",price:"~$12 USD"}]},
+      entretenimiento:{es:[{ic:"⚡",name:"Escaleras Eléctricas Comuna 13",desc:"Las escaleras eléctricas al aire libre más largas del mundo. Grafiti icónico.",price:"Gratuito",badge:"Ícono"},{ic:"🎭",name:"Festival de las Flores (Feria)",desc:"El evento cultural más importante de Medellín (agosto). Silleteros.",price:"Libre"}],en:[{ic:"⚡",name:"Comuna 13 Electric Escalators",desc:"World's longest outdoor escalators. Iconic street art.",price:"Free",badge:"Icon"},{ic:"🎭",name:"Festival de las Flores",desc:"Medellín's most important cultural event (August). Flower parade.",price:"Free"}]}
+    }
   },
-  {
-    title: "¿Cuál es tu presupuesto aproximado por día?",
-    key: "presupuesto",
-    options: [
-      {ic:"💵", label:"Económico"},
-      {ic:"💰", label:"Moderado"},
-      {ic:"💎", label:"Premium"},
-    ]
+
+  car:{
+    aloj:{
+      eco:{
+        es:[{ic:"🏠",name:"El Viajero Hostel Cartagena",desc:"Hostal en el Centro Histórico, piscina y ambiente caribeño.",price:"Desde $65.000/noche",badge:"Top Hostal"},{ic:"🛏",name:"Media Luna Hostel",desc:"El Getsemaní auténtico, cerca de murallas y plaza de la Trinidad.",price:"Desde $60.000/noche"},{ic:"🏡",name:"Casa Babel Hostel",desc:"Patio colonial, hamacas y desayuno tropical incluido.",price:"Desde $70.000/noche"}],
+        en:[{ic:"🏠",name:"El Viajero Hostel Cartagena",desc:"Hostel in the Historic Center, pool and Caribbean vibe.",price:"From $17 USD/night",badge:"Top Hostel"},{ic:"🛏",name:"Media Luna Hostel",desc:"Authentic Getsemaní, near walls and Plaza de la Trinidad.",price:"From $16 USD/night"},{ic:"🏡",name:"Casa Babel Hostel",desc:"Colonial courtyard, hammocks and tropical breakfast included.",price:"From $18 USD/night"}]
+      },
+      mid:{
+        es:[{ic:"🏨",name:"Hotel Boutique Quadrifolio",desc:"Edificio colonial restaurado en el Centro Histórico. Piscina en el patio.",price:"Desde $380.000/noche",badge:"Recomendado"},{ic:"🏨",name:"Hotel Charleston Santa Teresa",desc:"Ex convento colonial frente al Parque Santa Teresa.",price:"Desde $420.000/noche"},{ic:"🏠",name:"Apartamento Bocagrande",desc:"Vista al mar en Bocagrande, moderno y con piscina.",price:"Desde $320.000/noche"}],
+        en:[{ic:"🏨",name:"Boutique Hotel Quadrifolio",desc:"Restored colonial building in Historic Center. Courtyard pool.",price:"From $100 USD/night",badge:"Recommended"},{ic:"🏨",name:"Charleston Santa Teresa",desc:"Former colonial convent facing Parque Santa Teresa.",price:"From $110 USD/night"},{ic:"🏠",name:"Bocagrande Apartment",desc:"Sea view in Bocagrande, modern with pool.",price:"From $84 USD/night"}]
+      },
+      lux:{
+        es:[{ic:"⭐",name:"Casa San Agustín",desc:"El hotel más exclusivo del Centro Histórico. Casona colonial del siglo XVII.",price:"Desde $900.000/noche",badge:"5 estrellas"},{ic:"⭐",name:"Sofitel Legend Santa Clara",desc:"Antiguo convento del siglo XVII convertido en hotel de lujo.",price:"Desde $1.200.000/noche"},{ic:"⭐",name:"Hotel Capilla del Mar",desc:"Vista panorámica al Mar Caribe en Bocagrande, spa y piscinas.",price:"Desde $750.000/noche"}],
+        en:[{ic:"⭐",name:"Casa San Agustín",desc:"Most exclusive hotel in the Historic Center. 17th-century colonial mansion.",price:"From $237 USD/night",badge:"5 stars"},{ic:"⭐",name:"Sofitel Legend Santa Clara",desc:"17th-century convent converted into a luxury hotel.",price:"From $316 USD/night"},{ic:"⭐",name:"Hotel Capilla del Mar",desc:"Panoramic Caribbean Sea views in Bocagrande, spa and pools.",price:"From $197 USD/night"}]
+      }
+    },
+    gastro:{
+      aventura:{es:[{ic:"🐠",name:"La Cevichería",desc:"El restaurante de ceviche más famoso de Cartagena. Reserva recomendada.",price:"~$60.000",badge:"Anthony Bourdain lo visitó"},{ic:"🥥",name:"Restaurante Alma",desc:"Cocina de mar con ingredientes del Caribe colombiano.",price:"~$80.000"}],en:[{ic:"🐠",name:"La Cevichería",desc:"Cartagena's most famous ceviche restaurant. Reservation recommended.",price:"~$16 USD",badge:"Anthony Bourdain visited"},{ic:"🥥",name:"Restaurante Alma",desc:"Seafood cuisine with Colombian Caribbean ingredients.",price:"~$21 USD"}]},
+      cultura:{es:[{ic:"🍲",name:"Restaurante El Santísimo",desc:"Cocina cartagenera tradicional en casona colonial del siglo XVIII.",price:"~$70.000",badge:"Imperdible"},{ic:"☕",name:"Café del Mar",desc:"Café frente a las murallas, especial al atardecer.",price:"~$25.000"}],en:[{ic:"🍲",name:"El Santísimo Restaurant",desc:"Traditional Cartagena cuisine in an 18th-century colonial mansion.",price:"~$18 USD",badge:"Must visit"},{ic:"☕",name:"Café del Mar",desc:"Café facing the city walls, magical at sunset.",price:"~$7 USD"}]},
+      gastro:{es:[{ic:"🦐",name:"Donde Olano",desc:"Mariscos frescos directos del Caribe. El favorito de los locales.",price:"~$55.000",badge:"Auténtico"},{ic:"🫙",name:"Palenqueras del Centro",desc:"Frutas tropicales y cocadas vendidas por las palenqueras tradicionales.",price:"~$5.000"},{ic:"🍹",name:"Alquímico Bar & Restaurant",desc:"Coctelería de autor y gastronomía caribeña en casa colonial.",price:"~$80.000"}],en:[{ic:"🦐",name:"Donde Olano",desc:"Fresh Caribbean seafood. The locals' favorite.",price:"~$14 USD",badge:"Authentic"},{ic:"🫙",name:"Palenquera Ladies",desc:"Tropical fruits and coconut sweets sold by traditional Palenquera ladies.",price:"~$1 USD"},{ic:"🍹",name:"Alquímico Bar & Restaurant",desc:"Signature cocktails and Caribbean gastronomy in a colonial house.",price:"~$21 USD"}]},
+      relax:{es:[{ic:"🌴",name:"Club de Pesca",desc:"Restaurante flotante con vista a la bahía de Cartagena. Brunch tranquilo.",price:"~$65.000"},{ic:"🥭",name:"Jugo de Mango con Limón",desc:"Los mejores jugos naturales de Colombia en los mercados del centro.",price:"~$5.000"}],en:[{ic:"🌴",name:"Club de Pesca",desc:"Floating restaurant with views of Cartagena's bay. Relaxed brunch.",price:"~$17 USD"},{ic:"🥭",name:"Fresh Mango with Lime Juice",desc:"Colombia's best natural juices at the downtown markets.",price:"~$1 USD"}]},
+      entretenimiento:{es:[{ic:"🎊",name:"Restaurante Mila Pastelería",desc:"El mejor brunch con DJ los domingos en Getsemaní.",price:"~$60.000"},{ic:"🍺",name:"Donde Fidel",desc:"Bar histórico de salsa y vallenato en el barrio Getsemaní.",price:"~$20.000"}],en:[{ic:"🎊",name:"Mila Pastelería",desc:"Best Sunday brunch with DJ in Getsemaní.",price:"~$16 USD"},{ic:"🍺",name:"Donde Fidel",desc:"Historic salsa and vallenato bar in Getsemaní neighborhood.",price:"~$5 USD"}]}
+    },
+    activ:{
+      aventura:{es:[{ic:"🏝",name:"Islas del Rosario",desc:"Archipiélago coralino a 45 min en lancha. Snorkel y playa virgen.",price:"~$120.000",badge:"Imperdible"},{ic:"🤿",name:"Buceo en Barú",desc:"Inmersión con instructores certificados en aguas cristalinas del Caribe.",price:"~$200.000"},{ic:"🚤",name:"Playa Blanca - Barú",desc:"La playa más hermosa de Cartagena. Transporte en lancha.",price:"~$80.000"}],en:[{ic:"🏝",name:"Rosario Islands",desc:"Coral archipelago 45 min by speedboat. Snorkeling and pristine beach.",price:"~$32 USD",badge:"Must do"},{ic:"🤿",name:"Scuba Diving Barú",desc:"Dive with certified instructors in the crystal-clear Caribbean.",price:"~$53 USD"},{ic:"🚤",name:"Playa Blanca - Barú",desc:"Cartagena's most beautiful beach. Speedboat transfer.",price:"~$21 USD"}]},
+      cultura:{es:[{ic:"🏰",name:"Tour Murallas y Castillo San Felipe",desc:"El castillo más imponente de América del Sur. Guía incluido.",price:"~$50.000",badge:"Patrimonio UNESCO"},{ic:"🚶",name:"Tour a pie Getsemaní",desc:"El barrio más auténtico de Cartagena. Grafiti, historia y comunidad.",price:"~$40.000"},{ic:"🎭",name:"Palacio de la Inquisición",desc:"Historia colonial e inquisición española. Museo fascinante.",price:"~$25.000"}],en:[{ic:"🏰",name:"Walls & Castillo San Felipe Tour",desc:"Most imposing castle in South America. Guide included.",price:"~$13 USD",badge:"UNESCO Heritage"},{ic:"🚶",name:"Getsemaní Walking Tour",desc:"Cartagena's most authentic neighborhood. Street art, history, community.",price:"~$11 USD"},{ic:"🎭",name:"Palace of the Inquisition",desc:"Colonial history and Spanish Inquisition. Fascinating museum.",price:"~$7 USD"}]},
+      gastro:{es:[{ic:"🦞",name:"Tour culinario por el mercado",desc:"Recorre el Mercado de Bazurto con chef local. Sabores del Caribe.",price:"~$150.000",badge:"Experiencial"},{ic:"🥘",name:"Clase de cocina caribeña",desc:"Aprende a preparar ceviche, arroz de coco y patacones.",price:"~$160.000"}],en:[{ic:"🦞",name:"Bazurto Market Culinary Tour",desc:"Explore Bazurto Market with a local chef. Caribbean flavors.",price:"~$40 USD",badge:"Experiential"},{ic:"🥘",name:"Caribbean Cooking Class",desc:"Learn to prepare ceviche, coconut rice and patacones.",price:"~$42 USD"}]},
+      relax:{es:[{ic:"🌅",name:"Atardecer en las Murallas",desc:"El espectáculo más bello de Cartagena. Gratuito y mágico.",price:"Gratuito",badge:"Irrepetible"},{ic:"💆",name:"Spa Botica del Alma",desc:"Tratamientos con aceites esenciales colombianos en el centro histórico.",price:"~$200.000"},{ic:"⛵",name:"Velero al atardecer",desc:"Tour en velero por la bahía mientras cae el sol.",price:"~$90.000"}],en:[{ic:"🌅",name:"Sunset at the City Walls",desc:"Cartagena's most beautiful show. Free and magical.",price:"Free",badge:"Unmissable"},{ic:"💆",name:"Botica del Alma Spa",desc:"Treatments with Colombian essential oils in the historic center.",price:"~$53 USD"},{ic:"⛵",name:"Sunset Sailing",desc:"Sailing tour through the bay as the sun sets.",price:"~$24 USD"}]},
+      entretenimiento:{es:[{ic:"💃",name:"Noche de Champeta en Getsemaní",desc:"Baile tradicional afrocaribe en las plazas del barrio.",price:"Gratuito",badge:"Auténtico"},{ic:"🎶",name:"Casa de la Música",desc:"Vallenato y cumbia en vivo en el Centro Histórico.",price:"~$25.000"},{ic:"🎉",name:"Club de Pesca Sundowner",desc:"Cócteles al atardecer en el famoso club flotante.",price:"~$50.000"}],en:[{ic:"💃",name:"Champeta Night in Getsemaní",desc:"Traditional Afro-Caribbean dance in the neighborhood squares.",price:"Free",badge:"Authentic"},{ic:"🎶",name:"Casa de la Música",desc:"Live vallenato and cumbia in the Historic Center.",price:"~$7 USD"},{ic:"🎉",name:"Club de Pesca Sundowner",desc:"Sunset cocktails at the famous floating club.",price:"~$13 USD"}]}
+    }
   }
-];
+};
 
-let currentQ = 0;
-let answers = {};
-let startTime = null;
+// ══════════════════════════════════════
+//  FLUJO
+// ══════════════════════════════════════
+let currentQ=0, answers={}, selectedCity='', startTime=null;
 
-function startFlow(){
-  startTime = Date.now();
-  currentQ = 0;
-  answers = {};
+function show(name){
+  ['city','questions','loading','result'].forEach(n=>{
+    document.getElementById('screen-'+n).classList.add('hidden');
+  });
+  document.getElementById('screen-'+name).classList.remove('hidden');
+}
+
+function selectCity(city){
+  selectedCity=city;
+  startTime=Date.now();
+  currentQ=0;
+  answers={};
+  // actualizar topbar con ciudad
+  const names={bog:{es:'Bogotá',en:'Bogotá'},med:{es:'Medellín',en:'Medellín'},car:{es:'Cartagena',en:'Cartagena'}};
+  document.getElementById('loc-sub').textContent= (names[city][lang]||city) + ' · Piloto POP-01';
+  document.getElementById('loading-city-emoji').textContent = t('cityEmojis')[city]||'🗺️';
   renderQuestion();
   show('questions');
 }
 
 function renderQuestion(){
-  const q = questions[currentQ];
-  document.getElementById('q-counter').textContent = `Pregunta ${currentQ+1} de ${questions.length}`;
-  document.getElementById('q-title').textContent = q.title;
-  const optsDiv = document.getElementById('q-options');
-  optsDiv.innerHTML = '';
-  q.options.forEach(opt => {
-    const btn = document.createElement('div');
-    btn.className = 'opt';
-    btn.innerHTML = `<span class="ic">${opt.ic}</span><span>${opt.label}</span>`;
-    btn.onclick = () => selectOption(q.key, opt.label);
-    optsDiv.appendChild(btn);
+  const qs=QS[lang]||QS.es;
+  const q=qs[currentQ];
+  const total=qs.length;
+  const pb=document.getElementById('progress-bar');
+  pb.innerHTML='';
+  for(let i=0;i<total;i++) pb.innerHTML+=`<span><i style="width:${i<=currentQ?'100%':'0%'}"></i></span>`;
+  document.getElementById('q-counter').textContent=t('qCounter').replace('{n}',currentQ+1).replace('{t}',total);
+  document.getElementById('q-title').textContent=q.title;
+  const od=document.getElementById('q-options');
+  od.innerHTML='';
+  q.opts.forEach(opt=>{
+    const div=document.createElement('div');
+    div.className='opt';
+    div.innerHTML=`<span class="ic">${opt.ic}</span><div class="opt-info"><span>${opt.label}</span><small>${opt.sub||''}</small></div>`;
+    div.onclick=()=>selectOption(q.key,opt.label);
+    od.appendChild(div);
   });
-  // progress bar
-  ['bar1','bar2','bar3'].forEach((id,i) => {
-    document.getElementById(id).style.width = (i <= currentQ ? '100%' : '0%');
-  });
+  document.getElementById('btn-back').textContent=t('btnBack');
+  document.getElementById('btn-restart').textContent=t('btnRestart');
 }
 
-function selectOption(key, value){
-  answers[key] = value;
-  if(currentQ < questions.length - 1){
-    currentQ++;
-    renderQuestion();
-  } else {
+function selectOption(key,value){
+  answers[key]=value;
+  const qs=QS[lang]||QS.es;
+  if(currentQ<qs.length-1){ currentQ++; renderQuestion(); }
+  else {
+    document.getElementById('loading-text').textContent=t('loading');
     show('loading');
-    setTimeout(() => {
-      renderResult();
-      show('result');
-      logInteraction();
-    }, 1100); // simula tiempo de respuesta del sistema (< 5s requerido)
+    setTimeout(()=>{ renderResult(); show('result'); logInteraction(); },950);
   }
 }
 
 function goBack(){
-  if(currentQ > 0){
-    currentQ--;
-    renderQuestion();
-  } else {
-    show('start');
-  }
+  if(currentQ>0){ currentQ--; renderQuestion(); }
+  else show('city');
 }
+function resetFlow(){ currentQ=0; answers={}; selectedCity=''; show('city'); applyAllTexts(); }
 
-function resetFlow(){
-  currentQ = 0;
-  answers = {};
-  show('start');
+function getBudgetKey(){
+  const b=answers.budget||'';
+  if(b.includes('conóm')||b.includes('udget')) return 'eco';
+  if(b.includes('remium')) return 'lux';
+  return 'mid';
 }
-
-// Motor simple de recomendación basado en reglas (lógica del "MVP de IA")
-function getRecommendations(){
-  const recs = [];
-
-  // Alojamiento según presupuesto + compañía
-  if(answers.presupuesto === 'Económico'){
-    recs.push({ic:"🛏️", title:"Hostal La Candelaria", desc:"Habitaciones compartidas y privadas desde $60.000/noche, zona histórica.", tag:"Alojamiento"});
-  } else if(answers.presupuesto === 'Premium'){
-    recs.push({ic:"🏨", title:"Hotel Click Clack Bogotá", desc:"Diseño boutique en la Zona G, ideal para una estadía exclusiva.", tag:"Alojamiento"});
-  } else {
-    recs.push({ic:"🏠", title:"Selina Bogotá", desc:"Buen equilibrio precio-ubicación, ambiente social en Chapinero.", tag:"Alojamiento"});
-  }
-
-  // Gastronomía según experiencia
-  if(answers.experiencia === 'Gastronomía'){
-    recs.push({ic:"🍽️", title:"Mercado de Paloquemao", desc:"Sabores locales auténticos y frutas exóticas colombianas.", tag:"Gastronomía"});
-  } else if(answers.experiencia === 'Cultura'){
-    recs.push({ic:"☕", title:"Café San Alberto, La Candelaria", desc:"Cata de café de origen en un entorno colonial.", tag:"Gastronomía"});
-  } else {
-    recs.push({ic:"🍴", title:"Andrés DC", desc:"Experiencia gastronómica colombiana llena de color y música.", tag:"Gastronomía"});
-  }
-
-  // Actividad según experiencia + compañía
-  if(answers.experiencia === 'Aventura'){
-    recs.push({ic:"🚵", title:"Ciclomontañismo en Cerro de Suba", desc:"Ruta guiada apta para principiantes y grupos.", tag:"Actividad"});
-  } else if(answers.experiencia === 'Relajación'){
-    recs.push({ic:"🌿", title:"Jardín Botánico de Bogotá", desc:"Caminata tranquila entre flora andina, ideal para desconectar.", tag:"Actividad"});
-  } else if(answers.experiencia === 'Cultura'){
-    recs.push({ic:"🖼️", title:"Museo del Oro", desc:"Patrimonio precolombino en el corazón de la ciudad.", tag:"Actividad"});
-  } else {
-    recs.push({ic:"🎶", title:"Recorrido gastronómico nocturno", desc:"Tour a pie por los mejores puntos de comida callejera.", tag:"Actividad"});
-  }
-
-  if(answers["companía"] === 'Familia'){
-    recs.push({ic:"🎡", title:"Maloka - Centro Interactivo", desc:"Actividades educativas para todas las edades.", tag:"Actividad familiar"});
-  }
-
-  return recs;
+function getExpKey(){
+  const e=answers.exp||'';
+  if(e.includes('ventura')||e.includes('ature')) return 'aventura';
+  if(e.includes('ultura')||e.includes('istory')) return 'cultura';
+  if(e.includes('astron')) return 'gastro';
+  if(e.includes('elax')||e.includes('ellness')) return 'relax';
+  return 'entretenimiento';
 }
 
 function renderResult(){
-  const recs = getRecommendations();
-  document.getElementById('result-title').textContent =
-    `Plan para viajero ${answers["companía"] ? answers["companía"].toLowerCase() : ''}`;
-  const list = document.getElementById('rec-list');
-  list.innerHTML = '';
-  recs.forEach(r => {
-    const div = document.createElement('div');
-    div.className = 'rec-card';
-    div.innerHTML = `
-      <span class="ic">${r.ic}</span>
-      <div>
-        <h4>${r.title}</h4>
-        <p>${r.desc}</p>
-        <span class="rec-tag">${r.tag}</span>
-      </div>`;
-    list.appendChild(div);
+  const city=DB[selectedCity]||DB.bog;
+  const bk=getBudgetKey();
+  const ek=getExpKey();
+  const cn=t('cityNames')[selectedCity]||selectedCity;
+
+  // badge ciudad
+  const badge=document.getElementById('result-city-badge');
+  badge.className=`result-city-badge ${selectedCity}`;
+  badge.textContent=`${t('cityEmojis')[selectedCity]||'📍'} ${cn}`;
+
+  document.getElementById('result-title').textContent=t('recTitle').replace('{comp}',(answers.comp||'').toLowerCase());
+  document.getElementById('result-subtitle').textContent=
+    t('recSub').replace('{dias}',answers.dias||'').replace('{exp}',answers.exp||'').replace('{budget}',answers.budget||'');
+
+  const categories=[
+    {label:t('tabAloj'), items:(city.aloj[bk]||city.aloj.mid)[lang]||[]},
+    {label:t('tabGastro'), items:(city.gastro[ek]||city.gastro.cultura)[lang]||[]},
+    {label:t('tabActiv'), items:(city.activ[ek]||city.activ.cultura)[lang]||[]},
+  ];
+
+  const tabsDiv=document.getElementById('rec-tabs');
+  const panelsDiv=document.getElementById('rec-panels');
+  tabsDiv.innerHTML=''; panelsDiv.innerHTML='';
+
+  categories.forEach((cat,idx)=>{
+    const tab=document.createElement('button');
+    tab.className='rec-tab'+(idx===0?' active':'');
+    tab.textContent=cat.label;
+    tab.onclick=()=>switchTab(idx);
+    tabsDiv.appendChild(tab);
+    const panel=document.createElement('div');
+    panel.className='rec-content'+(idx===0?' active':'');
+    cat.items.slice(0,3).forEach((item,i)=>{
+      const card=document.createElement('div');
+      card.className='rec-card'+(i===0?' highlight':'');
+      card.innerHTML=`<span class="ic">${item.ic}</span><div><h4>${item.name}</h4><p>${item.desc}</p><div class="price">${item.price}</div>${item.badge?`<span class="badge">${item.badge}</span>`:''}</div>`;
+      panel.appendChild(card);
+    });
+    panelsDiv.appendChild(panel);
   });
-  // reset feedback buttons
-  document.querySelectorAll('#feedback-row button').forEach(b => b.classList.remove('sel'));
+
+  document.getElementById('t-qr').textContent=t('qrText');
+  document.getElementById('t-feedback-label').textContent=t('feedbackLabel');
+  document.getElementById('fb1').textContent=t('f1');
+  document.getElementById('fb2').textContent=t('f2');
+  document.getElementById('fb3').textContent=t('f3');
+  document.getElementById('btn-again').textContent=t('btnAgain');
+  document.querySelectorAll('#feedback-row button').forEach(b=>b.classList.remove('sel'));
 }
 
-function rate(btn, value){
-  document.querySelectorAll('#feedback-row button').forEach(b => b.classList.remove('sel'));
+function switchTab(idx){
+  document.querySelectorAll('.rec-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  document.querySelectorAll('.rec-content').forEach((p,i)=>p.classList.toggle('active',i===idx));
+}
+
+function rate(btn,v){
+  document.querySelectorAll('#feedback-row button').forEach(b=>b.classList.remove('sel'));
   btn.classList.add('sel');
-  console.log('Feedback registrado:', value, 'Respuestas:', answers);
+  console.log('Feedback:',v,'Ciudad:',selectedCity,'Respuestas:',answers);
 }
 
 function logInteraction(){
-  const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
-  console.log(`Interacción completada en ${elapsed}s`, answers);
+  console.log(`✅ ${selectedCity} — ${((Date.now()-startTime)/1000).toFixed(1)}s`,answers);
 }
 
-// Reloj decorativo
 function tick(){
-  const now = new Date();
-  document.getElementById('clock').textContent =
-    now.toLocaleTimeString('es-CO', {hour:'2-digit', minute:'2-digit'});
+  const n=new Date();
+  document.getElementById('clock').textContent=n.toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'});
 }
-tick();
-setInterval(tick, 30000);
-
-// Toggle idioma (simple, demostrativo para el PMV)
-const langTexts = {
-  es: {heroTitle:"Descubre tu próximo destino en Bogotá", heroSub:"Responde 3 preguntas rápidas y recibe recomendaciones personalizadas de alojamiento, gastronomía y actividades.", tapHint:"TOCA LA PANTALLA PARA COMENZAR", start:"Comenzar mi experiencia →"},
-  en: {heroTitle:"Discover your next destination in Bogotá", heroSub:"Answer 3 quick questions and get personalized recommendations on lodging, food and activities.", tapHint:"TAP SCREEN TO START", start:"Start my experience →"}
-};
-function setLang(lang){
-  document.getElementById('lang-es').classList.toggle('active', lang==='es');
-  document.getElementById('lang-en').classList.toggle('active', lang==='en');
-  document.getElementById('t-hero-title').textContent = langTexts[lang].heroTitle;
-  document.getElementById('t-hero-sub').textContent = langTexts[lang].heroSub;
-  document.getElementById('t-tap-hint').textContent = langTexts[lang].tapHint;
-  document.getElementById('btn-start').textContent = langTexts[lang].start;
-}
-document.getElementById('lang-es').onclick = () => setLang('es');
-document.getElementById('lang-en').onclick = () => setLang('en');
+tick(); setInterval(tick,30000);
+applyAllTexts();
 </script>
-
 </body>
 </html>
